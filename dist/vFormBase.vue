@@ -104,6 +104,30 @@
           ></v-text-field>
           <!-- !Text field masked -->
 
+          <!-- Date in field -->
+          <v-menu
+            v-else-if= "obj.schema.type === 'datesm'"
+            ref="menu1"
+            v-model="menu1"
+            :close-on-content-click="false"
+            transition="scale-transition"
+            offset-x
+            min-width="200px"
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-model="date"
+                v-mask="maskDate"
+                label="Data"
+                append-icon="event"
+                hint="Formato YYYY-MM-DD"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker v-model="date" locale="pt-br" no-title scrollable></v-date-picker>
+          </v-menu>
+          <!-- !Date in field -->
+
           <!-- btn-toggle -->
           <v-btn-toggle
             v-else-if= "obj.schema.type === 'btn-toggle'"
@@ -190,6 +214,7 @@ const typeToComponent = {
   checkbox: 'v-checkbox',
   color: 'v-color-picker',
   date: 'v-date-picker',
+  datesm: 'v-menu', //Data picker in text field
   time: 'v-time-picker',
   textarea: 'v-textarea',
 
@@ -248,7 +273,11 @@ export default {
       append,
       appendOuter,
       prepend,
-      prependInner
+      prependInner,
+
+      menu1: false,
+      maskDate: "####-##-##", //Mask of date (en)
+      date: new Date().toISOString().substr(0, 10),
     }
   },
 
