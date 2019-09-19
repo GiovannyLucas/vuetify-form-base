@@ -93,6 +93,17 @@
             @change= "onInput($event, obj)"
           ></v-file-input>
 
+          <!-- Text field masked -->
+          <v-text-field
+            v-else-if= "obj.schema.type === 'masked' "
+            v-mask="obj.schema.vMask"
+            :value= "setValue(obj)"
+            v-bind = "obj.schema"
+            @focus = "onFocus($event, obj)"
+            @change= "onInput($event, obj)"
+          ></v-text-field>
+          <!-- !Text field masked -->
+
           <!-- btn-toggle -->
           <v-btn-toggle
             v-else-if= "obj.schema.type === 'btn-toggle'"
@@ -159,9 +170,11 @@
 <script>
 // import & declarations
 import { get, isPlainObject, isFunction, isString, orderBy } from 'lodash'
+import { mask } from 'vue-the-mask' //Mask to Vue ^2.0.0
 
 const typeToComponent = {
   // map schema.type to vuetify-control (vuetify 2.0)
+  masked: 'v-text-field', //Field masked with prop 'vMask'
   text: 'v-text-field',
   // use native HTML5 Input Types - https://www.wufoo.com/html5/
   password: 'v-text-field',
@@ -206,7 +219,9 @@ const prepend = 'prepend'
 const prependInner = 'prepend-inner'
 
 export default {
-
+  directives: {
+    mask
+  }, //Called to mask the fields (Vue ^2.0.0)
   name: 'v-form-base',
 
   props: {
