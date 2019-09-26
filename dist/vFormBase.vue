@@ -96,6 +96,8 @@
           <!-- Text field masked -->
           <v-text-field
             v-else-if= "obj.schema.type === 'masked' "
+            :return-masked-value="obj.schema.returnMaskedValue"
+            :dont-fill-mask-blanks="obj.schema.dontFillMaskBlanks"
             v-mask="obj.schema.vMask"
             :value= "setValue(obj)"
             v-bind = "obj.schema"
